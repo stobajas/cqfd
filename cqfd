@@ -142,14 +142,16 @@ docker_run() {
 		interactive_options="-ti"
 	fi
 
-	# If possible, map cqfd_user from the calling user's
-	if [ -n "$USER" ]; then
-		cqfd_user="$USER"
-	fi
+	if [ "$legacy_builder_user" != "true" ]; then
+		# If possible, map cqfd_user from the calling user's
+		if [ -n "$USER" ]; then
+			cqfd_user="$USER"
+		fi
 
-	if [ -n "$HOME" ]; then
-		cqfd_user_home="$(cd $HOME; pwd)"
-		cqfd_user_cwd="$(pwd)"
+		if [ -n "$HOME" ]; then
+			cqfd_user_home="$(cd $HOME; pwd)"
+			cqfd_user_cwd="$(pwd)"
+		fi
 	fi
 
 	# Display a warning message if using no more supported options
@@ -290,6 +292,7 @@ config_load() {
 	project_org="$org"
 	project_name="$name"
 	project_build_context="$build_context"
+	legacy_builder_user="$legacy_builder_user"
 
 	cfg.section.build # load the [build] section
 

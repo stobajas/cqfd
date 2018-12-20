@@ -78,6 +78,7 @@ Here is a sample .cqfdrc file:
     org='fooinc'
     name='buildroot'
     build_context='.'
+    legacy_builder_user=false
 
     [build]
     command='make foobar_defconfig && make && asciidoc README.FOOINC'
@@ -95,6 +96,11 @@ to Docker. This should be specified relatively to where cqfd is
 invoked. In the example above, the whole current working directory of
 cqfd is passed to Docker as its build context, so most people will
 also add a ``.dockerignore`` file to avoid that.
+
+``legacy_builder_user`` (default false): in its early versions, cqfd
+used a fixed 'builder' account in the container. The container's user
+later evolved to use a user that mimics the host environment. When set
+to ``true``, the legacy builder account will be used instead.
 
 Generated Docker images for your project will be named $org_$name.
 
