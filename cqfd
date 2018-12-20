@@ -117,7 +117,7 @@ docker_build() {
 		build_args="$project_build_context -f $dockerfile"
 	fi
 
-	docker build ${quiet:+-q} -t "$docker_img_name" $build_args
+	docker build $CQFD_EXTRA_BUILD_ARGS ${quiet:+-q} -t "$docker_img_name" $build_args
 }
 
 # docker_run() - run command in configured container
