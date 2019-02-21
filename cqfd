@@ -105,14 +105,19 @@ die() {
 
 # docker_build() - Initialize build container
 docker_build() {
+	local build_args
+
 	if [ ! -f $dockerfile ]; then
 		die "no Dockerfile found at location $dockerfile"
 	fi
+
 	if [ -z "$project_build_context" ]; then
-		docker build ${quiet:+-q} -t "$docker_img_name" "$(dirname "$dockerfile")"
+		build_args=$(dirname "$dockerfile")
 	else
-		docker build ${quiet:+-q} -t "$docker_img_name" "${project_build_context}" -f "$dockerfile"
+		build_args="$project_build_context -f $dockerfile"
 	fi
+
+	docker build ${quiet:+-q} -t "$docker_img_name" $build_args
 }
 
 # docker_run() - run command in configured container
